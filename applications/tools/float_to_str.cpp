@@ -1,33 +1,33 @@
 #include "tools/float_to_str.hpp"
 
 uint8_t float_to_str(float value, char *buf, uint8_t decimal) {
-  uint8_t idx = 0; // buf µ±Ç°Ğ´ÈëÎ»ÖÃ
+  uint8_t idx = 0; // buf å½“å‰å†™å…¥ä½ç½®
 
-  // ÅĞ¶Ï·ûºÅ²¢È¡¾ø¶ÔÖµ
+  // åˆ¤æ–­ç¬¦å·å¹¶å–ç»å¯¹å€¼
   bool is_negative = value < 0;
   if (is_negative) {
     value = -value;
   }
 
-  // Ñ­»·ÀÛ³ËËã10^decimal
+  // å¾ªç¯ç´¯ä¹˜ç®—10^decimal
   int32_t scale = 1;
   for (uint8_t i = 0; i < decimal; i++) {
     scale *= 10;
   }
 
-  // Ëõ·Å + ËÄÉáÎåÈë£¬±ØĞëĞ´³ÉÒ»¸ö±í´ïÊ½
+  // ç¼©æ”¾ + å››èˆäº”å…¥ï¼Œå¿…é¡»å†™æˆä¸€ä¸ªè¡¨è¾¾å¼
   int32_t fixed = (int32_t)(value * scale + 0.5f);
 
-  // ¢Ü ²ğ³ÉÕûÊı²¿·ÖºÍĞ¡Êı²¿·Ö
-  int32_t digit = fixed / scale; // ÕûÊı²¿·Ö
-  int32_t frac = fixed % scale;  // Ğ¡Êı²¿·ÖµÄÊıÖµ
+  // æ‹†æˆæ•´æ•°éƒ¨åˆ†å’Œå°æ•°éƒ¨åˆ†
+  int32_t digit = fixed / scale; // æ•´æ•°éƒ¨åˆ†
+  int32_t frac = fixed % scale;  // å°æ•°éƒ¨åˆ†çš„æ•°å€¼
 
-  // ÕûÊı²¿·Ö×ª×Ö·û´®£¨µ¹ĞòÌáÈ¡£¬ÔÙµ¹¹ıÀ´Ğ´£©
+  // æ•´æ•°éƒ¨åˆ†è½¬å­—ç¬¦ä¸²ï¼ˆå€’åºæå–ï¼Œå†å€’è¿‡æ¥å†™ï¼‰
   char temp[16];
   uint8_t len = 0;
 
   if (digit == 0) {
-    // ÌØÅĞ 0£ºwhile Ñ­»·²»»áÖ´ĞĞ£¬·ñÔòÕûÊı²¿·Ö»áÊÇ¿Õ×Ö·û´®
+    // ç‰¹åˆ¤ 0ï¼šwhile å¾ªç¯ä¸ä¼šæ‰§è¡Œï¼Œå¦åˆ™æ•´æ•°éƒ¨åˆ†ä¼šæ˜¯ç©ºå­—ç¬¦ä¸²
     temp[len++] = '0';
   } else {
     while (digit > 0) {
@@ -36,17 +36,17 @@ uint8_t float_to_str(float value, char *buf, uint8_t decimal) {
     }
   }
 
-  // µ¹ĞòĞ´Èë buf
+  // å€’åºå†™å…¥ buf
   for (uint8_t i = 0; i < len; i++) {
     buf[idx++] = temp[len - 1 - i];
   }
 
-  // Ğ¡Êı²¿·Ö£º½öµ± decimal > 0 Ê±²ÅĞèÒª
+  // å°æ•°éƒ¨åˆ†ï¼šä»…å½“ decimal > 0 æ—¶æ‰éœ€è¦
   if (decimal > 0) {
     buf[idx++] = '.';
 
     if (frac == 0) {
-      // ÌØÅĞ 0£¬Ö±½Ó²¹Âú decimal ¸ö 0
+      // ç‰¹åˆ¤ 0ï¼Œç›´æ¥è¡¥æ»¡ decimal ä¸ª 0
       for (uint8_t i = 0; i < decimal; i++) {
         buf[idx++] = '0';
       }
@@ -57,7 +57,7 @@ uint8_t float_to_str(float value, char *buf, uint8_t decimal) {
         frac /= 10;
       }
 
-      // ²¹Ç°µ¼Áã£º0.005 Ó¦Êä³ö "005" ¶ø²»ÊÇ "5"
+      // è¡¥å‰å¯¼é›¶ï¼š0.005 åº”è¾“å‡º "005" è€Œä¸æ˜¯ "5"
       for (uint8_t i = len; i < decimal; i++) {
         temp[len++] = '0';
       }
@@ -68,10 +68,10 @@ uint8_t float_to_str(float value, char *buf, uint8_t decimal) {
     }
   }
 
-  // ¸ººÅ·ÅÔÚ×îÇ°Ãæ
-  // ²»ÄÜÒ»¿ªÊ¼¾ÍĞ´£¬ÒòÎªÄÇÊ±»¹²»ÖªµÀ·ûºÅ
+  // è´Ÿå·æ”¾åœ¨æœ€å‰é¢
+  // ä¸èƒ½ä¸€å¼€å§‹å°±å†™ï¼Œå› ä¸ºé‚£æ—¶è¿˜ä¸çŸ¥é“ç¬¦å·
   if (is_negative) {
-    // °ÑÒÑÓĞÄÚÈİÕûÌåÓÒÒÆÒ»Î»£¬¸ø¸ººÅÌÚÎ»ÖÃ
+    // æŠŠå·²æœ‰å†…å®¹æ•´ä½“å³ç§»ä¸€ä½ï¼Œç»™è´Ÿå·è…¾ä½ç½®
     for (uint8_t i = idx; i > 0; i--) {
       buf[i] = buf[i - 1];
     }
@@ -79,6 +79,6 @@ uint8_t float_to_str(float value, char *buf, uint8_t decimal) {
     idx++;
   }
 
-  buf[idx] = '\0'; // ½áÊø·û
+  buf[idx] = '\0'; // ç»“æŸç¬¦
   return idx;
 }

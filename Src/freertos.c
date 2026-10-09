@@ -45,7 +45,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+osThreadId imuTaskHandle;          // ← 加这一行
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId ledTaskHandle;
@@ -55,7 +55,7 @@ osThreadId controlTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+extern void imu_task(void const * argument);   // 加在其他 extern 声明旁边
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -132,6 +132,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  osThreadDef(imuTask, imu_task, osPriorityHigh, 0, 256);
+  imuTaskHandle = osThreadCreate(osThread(imuTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
 }

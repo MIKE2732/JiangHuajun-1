@@ -57,6 +57,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define serial1_Pin GPIO_PIN_6
+#define serial1_GPIO_Port GPIOD
+#define serial2_Pin GPIO_PIN_5
+#define serial2_GPIO_Port GPIOD
 #define MAG_RST_Pin GPIO_PIN_6
 #define MAG_RST_GPIO_Port GPIOG
 #define IMU_TEMP_Pin GPIO_PIN_6

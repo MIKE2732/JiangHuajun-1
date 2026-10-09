@@ -15,6 +15,7 @@
                 "enabled": true,
                 "samplesPerSecond": 20
             },
+            "showDevDebugOutput": "raw",
             "preLaunchTask": "CMake: build"
         }
     ]

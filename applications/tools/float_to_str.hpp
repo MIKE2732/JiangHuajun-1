@@ -3,8 +3,8 @@
 
 #include <cstdint>
 
-// °Ñ value ×ª³É¶¨µãÊı×Ö·û´®Ğ´Èë buf£¬·µ»ØĞ´ÈëµÄ×Ö·ûÊı(²»º¬½áÊø·û)
-// Ö§³Ö¸ºÊı£¬¹Ì¶¨ decimal Î»Ğ¡Êı
+// æŠŠ value è½¬æˆå®šç‚¹æ•°å­—ç¬¦ä¸²å†™å…¥ bufï¼Œè¿”å›å†™å…¥çš„å­—ç¬¦æ•°(ä¸å«ç»“æŸç¬¦)
+// æ”¯æŒè´Ÿæ•°ï¼Œå›ºå®š decimal ä½å°æ•°
 uint8_t float_to_str(float value, char *buf, uint8_t decimal = 3);
 
 #endif // FLOAT_TO_STR_HPP
