@@ -24,7 +24,7 @@ sp::BMI088 bmi088(&hspi1, GPIOA, GPIO_PIN_4, GPIOB, GPIO_PIN_0, imu_to_robot);
 sp::Mahony mahony(1e-3f);
 
 // 新加，IMU 专用绘图器，用 UART2
-sp::Plotter imu_plotter(&huart2, false);
+sp::Plotter imu_plotter(&huart1, false);
 
 // 打印间隔：50Hz → 20ms → 20 个循环
 constexpr uint16_t PRINT_INTERVAL_LOOPS = 20;
@@ -93,8 +93,10 @@ extern "C" void imu_task() {
     // 每 20 个循环打印一次（50Hz）
     if (++loop_count >= PRINT_INTERVAL_LOOPS) {
       loop_count = 0;
-      imu_print(mahony.roll * RAD_TO_DEG, mahony.pitch * RAD_TO_DEG,
-                mahony.yaw * RAD_TO_DEG);
+      // imu_print(1, 1, 1);
+      imu_print(mahony.roll, mahony.pitch, mahony.yaw);
+      // imu_print(mahony.roll * RAD_TO_DEG, mahony.pitch * RAD_TO_DEG,
+      //           mahony.yaw * RAD_TO_DEG);
       // imu_print(mahony.roll * RAD_TO_DEG, mahony.pitch * RAD_TO_DEG,
       //           mahony.yaw * RAD_TO_DEG, remote_value());
     }
