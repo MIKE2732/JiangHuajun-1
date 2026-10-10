@@ -58,6 +58,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     sp_middleware/tools/math_tools/math_tools.cpp
     sp_middleware/tools/pid/pid.cpp
     sp_middleware/tools/mahony/mahony.cpp
+    sp_middleware/tools/low_pass_filter/low_pass_filter.cpp    # ÐÂÔö(AngleUnwrapper ÒÀÀµ)
 
     applications/io/buzzer_task.cpp
     applications/io/led_task.cpp

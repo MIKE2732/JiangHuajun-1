@@ -55,20 +55,20 @@ constexpr uint16_t PRINT_INTERVAL_LOOPS = 20;
 static void imu_print(float roll_deg, float pitch_deg, float yaw_deg) {
   imu_plotter.plot(roll_deg, pitch_deg, yaw_deg);
 }
-// 右拨杆档位转成可绘图的值：上=1.0 / 中=0.0 / 下=-1.0
-constexpr float SW_UP = 1.0f;
-constexpr float SW_MID = 0.0f;
-constexpr float SW_DOWN = -1.0f;
-static float remote_value() {
-  switch (remote.sw_r) {
-  case sp::DBusSwitchMode::UP:
-    return SW_UP;
-  case sp::DBusSwitchMode::MID:
-    return SW_MID;
-  default:
-    return SW_DOWN;
-  }
-}
+// // 右拨杆档位转成可绘图的值：上=1.0 / 中=0.0 / 下=-1.0
+// constexpr float SW_UP = 1.0f;
+// constexpr float SW_MID = 0.0f;
+// constexpr float SW_DOWN = -1.0f;
+// static float remote_value() {
+//   switch (remote.sw_r) {
+//   case sp::DBusSwitchMode::UP:
+//     return SW_UP;
+//   case sp::DBusSwitchMode::MID:
+//     return SW_MID;
+//   default:
+//     return SW_DOWN;
+//   }
+// }
 // // 4通道
 // static void imu_print(float roll_deg, float pitch_deg, float yaw_deg,
 //                       float remote_ch4) {
@@ -78,6 +78,7 @@ static float remote_value() {
 // FreeRTOS 任务入口
 extern "C" void imu_task() {
   bmi088.init();
+  bmi088.update();
 
   mahony.update(bmi088.acc, bmi088.gyro); // 先喂一次，让内部完成初始化
 
