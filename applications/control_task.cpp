@@ -36,7 +36,7 @@ static float limit_torque(float torque) {
 }
 
 // IMU yaw 累计角（解环绕，避免 ±180跳变）
-static sp::AngleUnwrapper yaw_unwrapper;
+// static sp::AngleUnwrapper yaw_unwrapper;
 static float yaw_unwrapped = 0.0f;
 static float yaw_reference = 0.0f; // 联动参考零点
 
@@ -52,6 +52,10 @@ extern "C" void control_task() {
   motor_data.torque_b = 0.0f;
 
   while (true) {
+    // 目标速度为 0 时清空 PID 状态，避免陈旧积分导致电机自转
+    if (motor_data.torque_b == 0.0f) {
+      pid_speed_b.clear();
+    }
     // ---- 右拨杆三档模式 ----
     switch (remote.sw_r) {
     case sp::DBusSwitchMode::DOWN:

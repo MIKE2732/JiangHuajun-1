@@ -15,7 +15,7 @@ extern "C" void buzzer_task() {
 
   for (int i = 0; i < count; i++) {
     if (notes[i] > 0) {
-      buzzer.set(notes[i], 0.05);
+      buzzer.set(notes[i], 0.005);
       buzzer.start();
     } else {
       buzzer.stop();
